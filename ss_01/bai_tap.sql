@@ -1,8 +1,8 @@
 CREATE DATABASE bai_tap_ss1;
 use bai_tap_ss1;
-create database bai_tap;
-drop database bai_tap;
-create table class(
+create database exercise;
+drop database exercise;
+create table classes(
 id int primary key auto_increment,
 name varchar(100)
 );
@@ -12,9 +12,9 @@ name varchar(100),
 age int,
 country varchar(50)
 );
-select * from class;
+select * from classes;
 select * from teacher;
-insert into class(name)
+insert into classes(name)
 value('C1122G1'),
 ('C1222G1'),
 ('C1322G1'),
