@@ -208,4 +208,23 @@ value(1,5,2,4),
 
 select ma_nhan_vien, ho_ten
 from nhan_vien
-where ho_ten like 'H%' or 'T%' or 'K%' and ho_ten<=15;
+where ho_ten like 'H%' or ho_ten like 'T%' or ho_ten like 'K%' and length(ho_ten)<=15;
+
+-- Hiển thị thông tin của tất cả khách hàng có độ tuổi từ 18 đến 50 tuổi và
+-- có địa chỉ ở “Đà Nẵng” hoặc “Quảng Trị”.
+
+SELECT * from khach_hang
+where 18<=DATE_FORMAT(FROM_DAYS(DATEDIFF(NOW(),ngay_sinh)), '%Y')<=50 and dia_chi like '%, Đà Nẵng' or dia_chi like '%, Quảng Trị';
+
+-- Đếm xem tương ứng với mỗi khách hàng đã từng đặt phòng bao nhiêu lần. Kết quả hiển thị được sắp xếp tăng dần theo số lần đặt phòng của
+-- khách hàng. Chỉ đếm những khách hàng nào có Tên loại khách hàng là “Diamond”.
+use furama;
+select ho_ten
+from hop_dong
+inner join  khach_hang on hop_dong.ma_khach_hang=khach_hang.ma_khach_hang
+inner join loai_khach on khach_hang.ma_loai_khach=loai_khach.ma_loai_khach
+where loai_khach.ten_loai_khach='Diamond'
+group by hop_dong.ma_khach_hang
+order by(count(hop_dong.ma_khach_hang));
+
+
