@@ -1,4 +1,5 @@
 create database furama;
+--  drop database furama; 
 use furama;
 create table vi_tri(
 ma_vi_tri int primary key,
@@ -46,7 +47,8 @@ gioi_tinh bit(1),
 so_cmnd varchar(15),
 so_dien_thoai varchar(11),
 email varchar(45),
-dia_chi varchar(45)
+dia_chi varchar(45),
+foreign key(ma_loai_khach) references loai_khach(ma_loai_khach)
 );
 
 create table kieu_thue(
@@ -131,7 +133,7 @@ value(1,'Nguyen Van An','1970-11-07','456231786',10000000,'0901234121','annguyen
 (7,'Nguyễn Hữu Hà','1993-01-01','534323231',8000000,'0941234553','nhh0101@gmail.com','4 Nguyễn Chí Thanh, Huế',2,3,2),
 (8,'Nguyễn Hà Đông','1989-09-03','234414123',9000000,'0642123111','donghanguyen@gmail.com','111 Hùng Vương, Hà Nội',2,4,4),
 (9,'Tòng Hoang','1982-09-03','256781231',6000000,'0245144444','hoangtong@gmail.com','213 Hàm Nghi, Đà Nẵng',2,4,4),
-(10,'Nguyễn Công Đạo','1994-01-08','755434343',8000000,'0988767111','nguyencongdao12@gmail.com','nguyencongdao12@gmail.com',2,3,2);
+(10,'Nguyễn Công Đạo','1994-01-08','755434343',8000000,'0988767111','nguyencongdao12@gmail.com','6 Hoà Khánh, Đồng Nai',2,3,2);
 
 insert into loai_khach(ma_loai_khach,ten_loai_khach)
 value(1,'Diamond'),
@@ -143,7 +145,7 @@ value(1,'Diamond'),
 insert into khach_hang(ma_khach_hang,ho_ten,ngay_sinh,gioi_tinh,so_cmnd,so_dien_thoai,email,dia_chi,ma_loai_khach)
 value(1,'Nguyễn Thị Hào','1970-11-07',0,'643431213','0945423362','thihao07@gmail.com','23 Nguyễn Hoàng, Đà Nẵng',5),
 (2,'Phạm Xuân Diệu','1992-08-08',1,'865342123','0954333333','xuandieu92@gmail.com','K77/22 Thái Phiên, Quảng Trị',3),
-(3,'Trương Đình Nghệ','1990-02-27',1,'865342123','0373213122','nghenhan2702@gmail.com','K323/12 Ông Ích Khiêm',1),
+(3,'Trương Đình Nghệ','1990-02-27',1,'865342123','0373213122','nghenhan2702@gmail.com','K323/12 Ông Ích Khiêm, Vinh',1),
 (4,'Dương Văn Quan','1981-07-08',1,'543432111','0490039241','duongquan@gmail.com','K453/12 Lê Lợi, Đà Nẵng',1),
 (5,'Hoàng Trần Nhi Nhi','1995-12-09',0,'795453345','0312345678','nhinhi123@gmail.com','224 Lý Thái Tổ, Gia Lai',4),
 (6,'Tôn Nữ Mộc Châu','2005-12-06',0,'732434215','0988888844','tonnuchau@gmail.com','37 Yên Thế, Đà Nẵng',4),
@@ -214,7 +216,7 @@ where ho_ten like 'H%' or ho_ten like 'T%' or ho_ten like 'K%' and length(ho_ten
 -- có địa chỉ ở “Đà Nẵng” hoặc “Quảng Trị”.
 
 SELECT * from khach_hang
-where 18<=DATE_FORMAT(FROM_DAYS(DATEDIFF(NOW(),ngay_sinh)), '%Y')<=50 and dia_chi like '%, Đà Nẵng' or dia_chi like '%, Quảng Trị';
+where 18<=DATE_FORMAT(FROM_DAYS(DATEDIFF(NOW(),ngay_sinh)), '%Y') and DATE_FORMAT(FROM_DAYS(DATEDIFF(NOW(),ngay_sinh)), '%Y')<=50 and dia_chi like '%, Đà Nẵng' or dia_chi like '%, Quảng Trị';
 
 -- Đếm xem tương ứng với mỗi khách hàng đã từng đặt phòng bao nhiêu lần. Kết quả hiển thị được sắp xếp tăng dần theo số lần đặt phòng của
 -- khách hàng. Chỉ đếm những khách hàng nào có Tên loại khách hàng là “Diamond”.
@@ -227,4 +229,96 @@ where loai_khach.ten_loai_khach='Diamond'
 group by hop_dong.ma_khach_hang
 order by(count(hop_dong.ma_khach_hang));
 
+-- Hiển thị ma_khach_hang, ho_ten, ten_loai_khach, ma_hop_dong,
+-- ten_dich_vu, ngay_lam_hop_dong, ngay_ket_thuc, tong_tien (Với
+-- tổng tiền được tính theo công thức như sau: Chi Phí Thuê + Số Lượng *
+-- Giá, với Số Lượng và Giá là từ bảng dich_vu_di_kem,
+-- hop_dong_chi_tiet) cho tất cả các khách hàng đã từng đặt phòng. (những
+-- khách hàng nào chưa từng đặt phòng cũng phải hiển thị ra).
 
+
+set sql_mode='';
+SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
+select kh.ma_khach_hang, kh.ho_ten,lk.ten_loai_khach, hd.ma_hop_dong, dv.ten_dich_vu, hd.ngay_lam_hop_dong, hd.ngay_ket_thuc, 
+sum((ifnull(dv.chi_phi_thue, 0) + ifnull(hdct.so_luong, 0) * ifnull(dvdk.gia, 0))) as tong_tien
+from khach_hang as kh
+left join hop_dong as hd on kh.ma_khach_hang = hd.ma_khach_hang
+left join loai_khach as lk on lk.ma_loai_khach = kh.ma_loai_khach
+left join dich_vu as dv on dv.ma_dich_vu = hd.ma_dich_vu
+left join hop_dong_chi_tiet as hdct on hdct.ma_hop_dong = hd.ma_hop_dong
+left join dich_vu_di_kem as dvdk on dvdk.ma_dich_vu_di_kem = hdct.ma_dich_vu_di_kem
+group by hd.ma_hop_dong
+order by ma_khach_hang asc;
+-- Bai 6 
+-- Hiển thị ma_dich_vu, ten_dich_vu, dien_tich, chi_phi_thue, ten_loai_dich_vu của tất cả các loại dịch vụ chưa
+-- từng được khách hàng thực hiện đặt từ quý 1 của năm 2021 (Quý 1 là tháng 1, 2, 3).
+
+select dv.ma_dich_vu, dv.ten_dich_vu, dv.dien_tich,dv.chi_phi_thue,ldv.ten_loai_dich_vu
+from dich_vu as dv
+left join loai_dich_vu as ldv on ldv.ma_loai_dich_vu=dv.ma_loai_dich_vu
+where dv.ma_dich_vu  not in (select hd.ma_dich_vu
+from hop_dong as hd
+where month(hd.ngay_lam_hop_dong) between 1 and 3);
+
+-- Bai 7
+-- Hiển thị thông tin ma_dich_vu, ten_dich_vu, dien_tich, so_nguoi_toi_da, chi_phi_thue, ten_loai_dich_vu của tất cả các loại dịch vụ đã từng được khách hàng
+-- đặt phòng trong năm 2020 nhưng chưa từng được khách hàng đặt phòng trong năm 2021
+
+select dv.ma_dich_vu, dv.ten_dich_vu, dv.dien_tich, dv.so_nguoi_toi_da, dv.chi_phi_thue, ten_loai_dich_vu
+from dich_vu as dv 
+inner join loai_dich_vu as ldv on ldv.ma_loai_dich_vu=dv.ma_loai_dich_vu
+where ma_dich_vu not in(select hd.ma_dich_vu
+from hop_dong as hd
+where year(hd.ngay_lam_hop_dong)=2021);
+
+-- 8.	Hiển thị thông tin ho_ten khách hàng có trong hệ thống, với yêu cầu ho_ten không trùng nhau.
+-- c1
+select distinct ho_ten
+from khach_hang;
+-- c2
+select ho_ten
+from khach_hang
+group by ho_ten;
+-- c3
+
+
+
+-- 9.	Thực hiện thống kê doanh thu theo tháng, nghĩa là tương ứng với mỗi tháng trong năm 2021 thì sẽ có bao nhiêu khách hàng thực hiện đặt phòng.
+select month(ngay_lam_hop_dong) as thang, count(month(ngay_lam_hop_dong)) as count
+from hop_dong
+where year(ngay_lam_hop_dong)=2021
+group by month(ngay_lam_hop_dong)
+order by thang;
+
+-- 10.	Hiển thị thông tin tương ứng với từng hợp đồng thì đã sử dụng bao nhiêu dịch vụ đi kèm. Kết quả hiển thị bao gồm ma_hop_dong,
+--  ngay_lam_hop_dong, ngay_ket_thuc, tien_dat_coc, so_luong_dich_vu_di_kem (được tính dựa trên việc sum so_luong ở dich_vu_di_kem).
+
+select hd.ma_hop_dong, hd.ngay_lam_hop_dong, hd.ngay_ket_thuc, hd.tien_dat_coc, ifnull(sum(hdct.so_luong),0) as so_luong_dich_vu_di_kem
+from hop_dong as hd
+left join hop_dong_chi_tiet as hdct on hdct.ma_hop_dong= hd.ma_hop_dong
+group by hd.ma_hop_dong;
+
+-- 11.	Hiển thị thông tin các dịch vụ đi kèm đã được sử dụng bởi những khách hàng có ten_loai_khach là “Diamond” và có dia_chi ở “Vinh” hoặc “Quảng Ngãi”.
+select dvdk.ma_dich_vu_di_kem, dvdk.ten_dich_vu_di_kem
+from khach_hang as kh
+inner join loai_khach  as lk on kh.ma_loai_khach=lk.ma_loai_khach
+inner join hop_dong as hd on hd.ma_khach_hang=kh.ma_khach_hang
+inner join hop_dong_chi_tiet as hdct on hdct.ma_hop_dong=hd.ma_hop_dong
+inner join dich_vu_di_kem as dvdk on dvdk.ma_dich_vu_di_kem=hdct.ma_dich_vu_di_kem
+where lk.ten_loai_khach = 'Diamond' and kh.dia_chi like '%Vinh' or kh.dia_chi like '%Quảng Ngãi';
+
+-- 12.	Hiển thị thông tin ma_hop_dong, ho_ten (nhân viên), ho_ten (khách hàng), so_dien_thoai (khách hàng), 
+-- ten_dich_vu, so_luong_dich_vu_di_kem (được tính dựa trên việc sum so_luong ở dich_vu_di_kem), 
+-- tien_dat_coc của tất cả các dịch vụ đã từng được khách hàng đặt vào 3 tháng cuối năm 2020 nhưng chưa từng được khách hàng đặt vào 6 tháng đầu năm 2021
+
+select hd.ma_hop_dong, nv.ho_ten, kh.ho_ten, kh.so_dien_thoai,dv.ten_dich_vu,ifnull(sum(hdct.so_luong),0) as so_luong_dich_vu_di_kem, hd.tien_dat_coc
+from nhan_vien as nv
+inner join hop_dong as hd on nv.ma_nhan_vien=hd.ma_nhan_vien
+inner join khach_hang as kh on kh.ma_khach_hang=hd.ma_khach_hang
+inner join hop_dong_chi_tiet as hdct on hdct.ma_hop_dong=hd.ma_hop_dong
+inner join dich_vu as dv on hd.ma_dich_vu=dv.ma_dich_vu
+where (month(hd.ngay_lam_hop_dong) between 10 and 12) and (year(hd.ngay_lam_hop_dong)=2020) 
+and hd.ma_hop_dong not in(select ma_hop_dong
+from hop_dong
+where (month(hd.ngay_lam_hop_dong) between 1 and 6) and (year(hd.ngay_lam_hop_dong)=2021))
+group by hd.ma_hop_dong
