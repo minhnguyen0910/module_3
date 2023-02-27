@@ -5,7 +5,7 @@ c_id int primary key,
 c_name varchar(50),
 c_tuoi int
 );
-create table oder(
+create table is_order(
 o_id int primary key,
 c_id int,
 o_date date,
@@ -23,14 +23,14 @@ c_id int,
 od_qty int,
 primary key(p_id,c_id),
 foreign key (p_id) references product(p_id),
-foreign key (c_id) references oder(c_id)
+foreign key (c_id) references is_order(c_id)
 );
 insert into customer(c_id,c_name,c_tuoi)
 value(1,'Minh Quan',10),(2,'Ngoc Oanh',20),(3,'Hong Ha',50);
 insert into product(p_id,p_name,p_price)
 value(1,'May Giat',3),(2,'Tu Lanh',5),(3,'Dieu Hoa',7),
 (4,'Quat',1),(5,'Bep Dien',2);
-insert into oder(o_id,c_id,o_date,o_total_price)
+insert into is_order(o_id,c_id,o_date,o_total_price)
 value(1,1,'2006-03-21'),(2,2,'2006-03-23'),(3,1,2006-03-16);
 insert into order_detail(p_id,c_id,od_qty)
 value(1,1,'a'),(2,2,'b');

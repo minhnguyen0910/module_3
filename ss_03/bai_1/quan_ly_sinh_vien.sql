@@ -1,6 +1,6 @@
 create database quan_ly_sinh_vien;
 use quan_ly_sinh_vien;
-create table lop_hoc(
+create table my_class(
 class_id int primary key auto_increment,
 class_name varchar(50) not null,
 class_date date not null,
@@ -31,7 +31,7 @@ unique(sub_id,student_id),
 foreign key(sub_id) references subjects(sub_id),
 foreign key(student_id) references students(student_id)
 );
-insert into lop_hoc
+insert into ma_class
 value(1,'A1','2008-12-20',1),
 (2,'A2','2008-12-22',1),
 (3,'A2',current_date(),1);
@@ -51,7 +51,7 @@ value(1,1,8,1),
 select * from mark;
 select * from students
 where student_name like 'h%';
-select * from lop_hoc
+select * from my_class
 where class_date like '%-12-%';
 select * from subjects
 where credit between 3 and 5;
