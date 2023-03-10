@@ -5,7 +5,7 @@
     <title>JSP - Hello World</title>
 </head>
 <body>
-<form action="/CalculateDiscountServlet">
+<form>
     <table>
         <tr>
             <th>
