@@ -29,8 +29,8 @@
                 <button type="submit">Calculator</button>
             </th>
         </tr>
-        <tr style="text-align: left">
-            <th style="">
+        <tr>
+            <th>
                 Result
             </th>
             <td>
