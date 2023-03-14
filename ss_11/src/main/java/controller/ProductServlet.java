@@ -47,27 +47,22 @@ public class ProductServlet extends HttpServlet {
                 create(request, response);
                 break;
             case "search":
-                System.out.println("b");
-                int id = Integer.parseInt(request.getParameter("idSearch"));
-                List<Product> productList=new ArrayList<>();
-                productList.add(productService.display(id));
-                request.setAttribute("productList", productList);
-                request.getRequestDispatcher("product/list.jsp").forward(request, response);
+                search(request,response);
             default:
                 showListProduct(request, response);
         }
     }
 
-    private void showDeleteForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.sendRedirect("product/list.jsp");
+    private void search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("idSearch"));
+        List<Product> productList=new ArrayList<>();
+        productList.add(productService.display(id));
+        request.setAttribute("productList", productList);
+        request.getRequestDispatcher("product/list.jsp").forward(request, response);
     }
 
     private void showCreateForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.sendRedirect("product/create.jsp");
-    }
-
-    private void showListForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.sendRedirect("product/list.jsp");
     }
 
     private void showListProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
