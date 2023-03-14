@@ -10,6 +10,7 @@
         border: 1px solid #000;
         position: relative;
     }
+
     .title {
         position: absolute;
         top: -26px;
@@ -26,10 +27,18 @@
         </p>
         <table style="margin-top: 15px">
             <tr>
-                <th>
-                    First: <input type="number" name="first">
+                <th style="text-align: left">
+                    First:
                 </th>
-                <th>
+                <td>
+                    <input type="number" name="first" value="${firsts}">
+                </td>
+            </tr>
+            <tr>
+                <th style="text-align: left">
+                   Operator
+                </th>
+                <th style="text-align: left">
                     <select name="phepTinh" id="">
                         <option value="cong">+</option>
                         <option value="tru">-</option>
@@ -37,11 +46,23 @@
                         <option value="chia">/</option>
                     </select>
                 </th>
-                <th>
-                    Last: <input type="number" name="last">
+
+            </tr>
+            <tr>
+                <th style="text-align: left">
+                    Last:
                 </th>
+                <td>
+                    <input type="number" name="last" value="${lasts}">
+                </td>
+            </tr>
+
+            <tr>
                 <th>
                     <button type="submit">Calculator</button>
+                </th>
+                <th>
+
                 </th>
             </tr>
             <tr style="text-align: left">

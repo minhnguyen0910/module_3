@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "Customer", value = "/Customer")
-public class CustomerService extends HttpServlet {
+public class CustomerController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Customer> customerList=new ArrayList<>();

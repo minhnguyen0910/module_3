@@ -26,6 +26,8 @@ public class Calculator extends HttpServlet {
            result=first/last;
        }
        request.setAttribute("results",result);
+       request.setAttribute("firsts",first);
+       request.setAttribute("lasts",last);
        request.getRequestDispatcher("index.jsp").forward(request,response);
     }
 }
