@@ -12,7 +12,7 @@
     <title>Title</title>
 </head>
 <body>
-<form  action="/product?action=create" method="post">
+<form method="post">
 <table>
     <tr>
         <th>Id</th>
@@ -29,6 +29,10 @@
     <tr>
         <th>Image</th>
         <td><input type="text" name="image"></td>
+    </tr>
+    <tr>
+        <th>Product Details</th>
+        <td><input type="text" name="productDetails"></td>
     </tr>
     <tr>
         <th>

@@ -26,6 +26,7 @@
             <th>Name</th>
             <th>Price</th>
             <th>Image</th>
+            <th>Product Details</th>
 
         </tr>
     </thread>
@@ -36,6 +37,8 @@
             <td>${product.name}</td>
             <td>${product.price}</td>
             <td><img style="width: 100px" src="${product.image}" alt=""></td>
+            <td>${product.productDetails}</td>
+            <td>${product.producer}</td>
             <td><a href="/product?action=delete&id=${product.id}">Delete</a></td>
             <td><a href="/product?action=edit&id=${product.id}">Edit</a></td>
         </tr>
