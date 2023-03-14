@@ -31,7 +31,6 @@ public class ProductServlet extends HttpServlet {
             case "search":
                 break;
             default:
-                System.out.println("aaa");
                 showListProduct(request, response);
         }
     }

@@ -5,12 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dc9bfbd4-223d-41d5-82f6-e75f1a21ae2c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../ss_11/src/main/webapp/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../apache-tomcat-9.0.73/webapps/ROOT/WEB-INF/classes/Calculator.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../apache-tomcat-9.0.73/webapps/ROOT/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/../apache-tomcat-9.0.73/webapps/ROOT/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../demo/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../demo/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ss_10_bai2/src/main/java/Calculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ss_10_bai2/src/main/java/Calculator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ss_10_bai2/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/../ss_10_bai2/src/main/webapp/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ss_11/src/main/java/controller/ProductServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ss_11/src/main/java/controller/ProductServlet.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +31,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/ADMIN/Desktop/SQL/ss_10_bai_2",
+    "last_opened_file_path": "C:/Users/ADMIN/Desktop/SQL/ss_10_bai2",
     "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0"
@@ -141,6 +136,7 @@
       <updated>1678431509807</updated>
       <workItem from="1678431510980" duration="241000" />
       <workItem from="1678677196864" duration="10000" />
+      <workItem from="1678764805303" duration="14000" />
     </task>
     <servers />
   </component>
