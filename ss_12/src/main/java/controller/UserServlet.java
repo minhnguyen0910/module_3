@@ -21,11 +21,20 @@ public class UserServlet extends HttpServlet {
             action = "";
         }
         switch (action) {
+            case "create":
+                showCreateForm(request, response);
+                break;
+            case "delete":
+                delete(request, response);
+                break;
+            case "edit":
+                showEditForm(request, response);
+                break;
+            case "sort":
+                sort(request, response);
             default:
                 showList(request, response);
         }
-
-
     }
 
     @Override
@@ -38,10 +47,22 @@ public class UserServlet extends HttpServlet {
             case "search":
                 search(request, response);
                 break;
+            case "create":
+                create(request, response);
+                break;
+            case "edit":
+                edit(request, response);
+                break;
             default:
                 showList(request, response);
         }
 
+    }
+
+    private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        userService.delete(id);
+        response.sendRedirect("/user");
     }
 
     private void search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -55,5 +76,42 @@ public class UserServlet extends HttpServlet {
         List<User> list = userService.findAll();
         request.setAttribute("listUser", list);
         request.getRequestDispatcher("list.jsp").forward(request, response);
+    }
+
+    private void create(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String country = request.getParameter("country");
+        String email=request.getParameter("email");
+        userService.insert(new User(id, name, country,email));
+        response.sendRedirect("/user");
+    }
+
+    private void showCreateForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendRedirect("create.jsp");
+    }
+
+    private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        request.setAttribute("user", userService.findByID(id));
+        request.getRequestDispatcher("/update.jsp").forward(request, response);
+
+    }
+
+    private void edit(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String country = request.getParameter("country");
+        String email=request.getParameter("email");
+        User user = new User(id, name, country,email);
+        userService.edit(id, user);
+        response.sendRedirect("/user");
+    }
+
+    private void sort(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<User> list = userService.sortByName();
+        request.setAttribute("listUser", list);
+        request.getRequestDispatcher("list.jsp").forward(request, response);
+
     }
 }

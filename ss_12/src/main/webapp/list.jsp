@@ -20,6 +20,8 @@
 </head>
 <body>
 <h1>User</h1>
+<a href="/user?action=create">Create new User</a> <br>
+<a href="/user?action=sort">Sort By Name</a>
 <form action="/user?action=search" method="post">
   <button type="submit">Search</button>
   <input type="text" name="country">
@@ -30,6 +32,7 @@
       <th>Id</th>
       <th>Name</th>
       <th>Country</th>
+      <th>Email</th>
       <th>Delete</th>
       <th>Edit</th>
     </tr>
@@ -40,6 +43,7 @@
       <td>${user.id}</td>
       <td>${user.name}</td>
       <td>${user.country}</td>
+      <td>${user.email}</td>
       <td><a href="user?action=delete&id=${user.id}">Delete</a></td>
       <td><a href="user?action=edit&id=${user.id}">Edit</a></td>
     </tr>
