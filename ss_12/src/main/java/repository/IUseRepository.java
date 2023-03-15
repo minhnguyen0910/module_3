@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface IUseRepository {
     List<User> findAll();
+
+    List<User> findByCountry(String country);
 }

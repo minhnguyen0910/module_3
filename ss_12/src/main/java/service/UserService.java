@@ -12,4 +12,9 @@ public class UserService implements IUserService{
     public List<User> findAll() {
         return repository.findAll();
     }
+
+    @Override
+    public List<User> findByCountry(String country) {
+        return repository.findByCountry(country);
+    }
 }

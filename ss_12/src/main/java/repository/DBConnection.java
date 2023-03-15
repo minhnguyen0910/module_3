@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class DBConnection {
     private static final String USER_NAME = "root";
-    private static final String PASSWORD = "1n.v.minh99";
+    private static final String PASSWORD = "n.v.minh99";
     private static final String HOST = "localhost";
     private static final String DATABASE = "user_manage";
     private static final String PORT = "3306";
@@ -15,8 +15,9 @@ public class DBConnection {
 
     public static Connection getConnection () {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://"+HOST+":"+PORT+"/"+DATABASE, USER_NAME, PASSWORD);
+            System.out.println("jdbc:mysql://"+HOST+":"+PORT+"/"+DATABASE);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
