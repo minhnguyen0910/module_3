@@ -1,4 +1,4 @@
-package ss_14;
+package com.example.ss__14;
 
 import java.util.Scanner;
 
