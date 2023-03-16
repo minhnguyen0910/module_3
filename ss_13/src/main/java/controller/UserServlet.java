@@ -27,6 +27,9 @@ public class UserServlet extends HttpServlet {
             case "edit":
                 showEditForm(request, response);
                 break;
+            case "create":
+                showCreateForm(request,response);
+                break;
             default:
                 display(request, response);
         }
@@ -41,9 +44,24 @@ public class UserServlet extends HttpServlet {
           case "edit":
               edit(request,response);
               break;
+          case "create":
+              create(request,response);
+              break;
           default:
               display(request,response);
       }
+    }
+    private void showCreateForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendRedirect("/create.jsp");
+    }
+    private void create(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        int id=Integer.parseInt(request.getParameter("id"));
+        String name=request.getParameter("name");
+        String email=request.getParameter("email");
+        String country=request.getParameter("country");
+        User user=new User(id,name,email,country);
+        userService.createUser(user);
+        response.sendRedirect("/user");
     }
     private void edit(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));

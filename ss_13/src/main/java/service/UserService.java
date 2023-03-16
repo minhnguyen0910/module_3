@@ -3,6 +3,7 @@ package service;
 import modle.User;
 import repository.UserRepository;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class UserService implements IUserService{
@@ -20,5 +21,15 @@ public class UserService implements IUserService{
     @Override
     public void editByID(User user) {
         userRepository.editByID(user);
+    }
+
+    @Override
+    public void addUserContraction(User user) throws SQLException {
+        userRepository.addUserContraction(user);
+    }
+
+    @Override
+    public void createUser(User user) {
+        userRepository.createUser(user);
     }
 }

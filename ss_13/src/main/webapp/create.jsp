@@ -11,6 +11,28 @@
     <title>Title</title>
 </head>
 <body>
-<form action=""></form>
+<form action="/user?action=create" method="post">
+    <table>
+        <tr>
+            <th>Id</th>
+            <td><input type="number" name="id"></td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td><input type="text" name="name"></td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td><input type="text" name="email"></td>
+        </tr>
+        <tr>
+            <th>Country</th>
+            <td><input type="text" name="country"></td>
+        </tr>
+        <tr>
+            <td><button type="submit">Create</button></td>
+        </tr>
+    </table>
+</form>
 </body>
 </html>
