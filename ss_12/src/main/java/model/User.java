@@ -1,16 +1,16 @@
 package model;
 
-public class User  implements Comparable<User>{
-    int id;
-    String name;
-    String country;
-    String email;
+public class User implements Comparable<User> {
+    private int id;
+    private String name;
+    private String country;
+    private String email;
 
-    public User(int id, String name,String country,String email) {
+    public User(int id, String name, String country, String email) {
         this.id = id;
         this.name = name;
-        this.country=country;
-        this.email=email;
+        this.country = country;
+        this.email = email;
     }
 
     public String getEmail() {
