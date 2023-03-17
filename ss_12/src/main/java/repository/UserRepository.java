@@ -16,6 +16,7 @@ public class UserRepository implements IUseRepository {
     public static final String UPDATE_BY_ID = "update  is_user\n" +
             "set user_id=?,user_name=?,user_country=?\n" +
             "where user_id=?;";
+    public static final String SORT_BY_NAME = "select * from is_user order by user_name;";
 
     public User findByID(int id) {
         List<User> userList = findAll();
@@ -28,9 +29,34 @@ public class UserRepository implements IUseRepository {
     }
 
     public List<User> sortByName() {
-        List<User> userList = findAll();
-        Collections.sort(userList);
-        return userList;
+        List<User> list = new ArrayList<>();
+        Connection connection = DBConnection.getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement(SORT_BY_NAME);
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("user_id");
+                String name = resultSet.getString("user_name");
+                String email = resultSet.getString("user_email");
+                String country = resultSet.getString("user_country");
+                list.add(new User(id, name, country, email));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                resultSet.close();
+                statement.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            DBConnection.close();
+
+        }
+        return list;
     }
 
     public void edit(int id, User users) {
@@ -71,8 +97,8 @@ public class UserRepository implements IUseRepository {
                     int id = resultSet.getInt("user_id");
                     String name = resultSet.getString("user_name");
                     String country = resultSet.getString("user_country");
-                    String email=resultSet.getString("user_email");
-                    User user = new User(id, name, country,email);
+                    String email = resultSet.getString("user_email");
+                    User user = new User(id, name, country, email);
                     userList.add(user);
                 }
             }
@@ -106,8 +132,8 @@ public class UserRepository implements IUseRepository {
                     int id = resultSet.getInt("user_id");
                     String name = resultSet.getString("user_name");
                     String country1 = resultSet.getString("user_country");
-                    String email=resultSet.getString("user_email");
-                    user = new User(id, name, country1,email);
+                    String email = resultSet.getString("user_email");
+                    user = new User(id, name, country1, email);
                     userList.add(user);
                 }
             }
